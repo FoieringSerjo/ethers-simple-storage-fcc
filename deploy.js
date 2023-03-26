@@ -8,6 +8,12 @@ async function main() {
   // And make sure to have your ganache network up!
   let provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
   let wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+  // const encryptedJson = fs.readFileSync('./.encryptedKey.json', 'utf8');
+  // let wallet = new ethers.Wallet.fromEncryptedJsonSync(
+  //   encryptedJson,
+  //   process.env.PRIVATE_KEY_PASSWORD
+  // );
+  wallet = wallet.connect(provider);
 
   const abi = fs.readFileSync(
     './SimpleStorage_sol_SimpleStorage.abi',
@@ -23,11 +29,11 @@ async function main() {
   const contract = await contractFactory.deploy();
 
   const deploymentReceipt = await contract.deployTransaction.wait(1);
-  console.log(`Contract deployed to ${contract.address}`);
-  console.log('Here is the transaction:');
-  console.log(contract.deployTransaction);
-  console.log('Here is the receipt:');
-  console.log(deploymentReceipt);
+  // console.log(`Contract deployed to ${contract.address}`);
+  // console.log('Here is the transaction:');
+  // console.log(contract.deployTransaction);
+  // console.log('Here is the receipt:');
+  // console.log(deploymentReceipt);
 
   //  Additionally, there is a v,r,and s variable that ethers handles for us.
   //  This is the signature of the transaction.
@@ -39,7 +45,7 @@ async function main() {
   console.log(`Current Favorite Number: ${currentFavoriteNumber}`);
   console.log('Updating favorite number...');
   let transactionResponse = await contract.store(7);
-  let transactionReceipt = await transactionResponse.wait();
+  let transactionReceipt = await transactionResponse.wait(1);
   currentFavoriteNumber = await contract.retrieve();
   console.log(`New Favorite Number: ${currentFavoriteNumber}`);
 }

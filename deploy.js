@@ -13,7 +13,7 @@ async function main() {
   //   encryptedJson,
   //   process.env.PRIVATE_KEY_PASSWORD
   // );
-  wallet = wallet.connect(provider);
+  // wallet = wallet.connect(provider);
 
   const abi = fs.readFileSync(
     './SimpleStorage_sol_SimpleStorage.abi',
